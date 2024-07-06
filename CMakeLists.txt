@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.27)
 project(yoga_binding)
 
 set(CMAKE_CXX_STANDARD 20)
-set(LIBDIR lib/)
+set(LIBDIR lib)
+string(APPEND CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++ -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive")
 
 #adding bindings
 add_library(${PROJECT_NAME} SHARED src/bindings.cpp)
