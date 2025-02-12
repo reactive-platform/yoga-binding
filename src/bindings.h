@@ -5,20 +5,28 @@
 
 #include <yoga/Yoga.h>
 
-#define EXPORT __attribute__((visibility("default")))
+#ifdef _MSC_VER
+#ifdef YOGA_BINDING_EXPORTS
+#define YOGA_API __declspec(dllexport)
+#else
+#define YOGA_API __declspec(dllimport)
+#endif
+#else
+#define YOGA_API __attribute__((visibility("default")))
+#endif
 
-extern "C" {
+extern "C"
+{
 
-typedef void (* YGBindingsLogger)(char* string, YGLogLevel level);
+    typedef void (*YGBindingsLogger)(char *string, YGLogLevel level);
 
-EXPORT void YGBindingsSetLogger(YGBindingsLogger callback);
+    YOGA_API void YGBindingsSetLogger(YGBindingsLogger callback);
 
-EXPORT void YGNodeInsertChildSafe(YGNodeRef node, YGNodeRef child, int index);
+    YOGA_API void YGNodeInsertChildSafe(YGNodeRef node, YGNodeRef child, int index);
 
-EXPORT void YGNodeRemoveChildSafe(YGNodeRef node, YGNodeRef child);
+    YOGA_API void YGNodeRemoveChildSafe(YGNodeRef node, YGNodeRef child);
 
-EXPORT void YGNodeRemoveAllChildrenSafe(YGNodeRef node);
+    YOGA_API void YGNodeRemoveAllChildrenSafe(YGNodeRef node);
 
-EXPORT void YGTest() {}
-
+    YOGA_API void YGTest();
 }
