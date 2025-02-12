@@ -49,9 +49,10 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup>
-    <TargetName>YogaBinding</TargetName>
+    <TargetName>yoga</TargetName>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -68,11 +69,6 @@
       <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
       <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreaded</RuntimeLibrary>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-    </Link>
   </ItemDefinitionGroup>
   <!-- Managed wrapper files -->
   <ItemGroup>
@@ -126,12 +122,6 @@
     <ClInclude Include="lib\yoga\yoga\numeric\Comparison.h" />
     <ClInclude Include="lib\yoga\yoga\numeric\FloatOptional.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <!-- Disable NuGet -->
   <PropertyGroup>
     <NuGetTargets>NO_NUGET_TARGETS</NuGetTargets>
   </PropertyGroup>
