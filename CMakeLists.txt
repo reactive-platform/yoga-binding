@@ -3,7 +3,7 @@ project(yoga_binding)
 
 set(CMAKE_CXX_STANDARD 20)
 set(LIBDIR lib)
-string(APPEND CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++ -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgcc -static-libstdc++ -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive")
 
 #adding bindings
 add_library(${PROJECT_NAME} SHARED src/bindings.cpp)

@@ -1,44 +1,34 @@
 //
 // Created by Hermanest on 13-Apr-24.
 //
-#include <exception>
+#include <cstdio>
 #include "bindings.h"
 
-static YGBindingsLogger logger;
-
-static void Log(std::exception &err) {
-    if (logger == nullptr) return;
-    logger((char*)err.what(), YGLogLevelFatal);
-}
+static YGBindingsLogger logger = nullptr;
 
 extern "C" {
-
-void YGBindingsSetLogger(YGBindingsLogger callback) {
-    logger = callback;
-}
-
-void YGNodeInsertChildSafe(YGNodeRef node, YGNodeRef child, int index) {
-    try {
-        YGNodeInsertChild(node, child, index);
-    } catch (std::exception &err) {
-        Log(err);
+int YGLoggerWrapper(
+    YGConfigConstRef config,
+    YGNodeConstRef node,
+    YGLogLevel level,
+    const char* format,
+    va_list args
+) {
+    if (logger == nullptr) {
+        return 0;
     }
+
+    // Format the log string
+    char buffer[1024];
+    vsnprintf(buffer, sizeof(buffer), format, args);
+
+    // Call the bindings logger
+    logger(buffer, level);
+
+    return 0;
 }
 
-void YGNodeRemoveChildSafe(YGNodeRef node, YGNodeRef child) {
-    try {
-        YGNodeRemoveChild(node, child);
-    } catch (std::exception &err) {
-        Log(err);
-    }
+void YGBindingsConfigSetLogger(YGBindingsLogger logger) {
+    ::logger = logger;
 }
-
-void YGNodeRemoveAllChildrenSafe(YGNodeRef node) {
-    try {
-        YGNodeRemoveAllChildren(node);
-    } catch (std::exception &err) {
-        Log(err);
-    }
-}
-
 }
