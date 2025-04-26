@@ -28,7 +28,13 @@ int YGLoggerWrapper(
     return 0;
 }
 
-void YGBindingsConfigSetLogger(YGBindingsLogger logger) {
+void YGBindingsConfigSetLogger(YGConfigRef config, YGBindingsLogger logger) {
     ::logger = logger;
+
+    if (logger != nullptr) {
+        YGConfigSetLogger(config, YGLoggerWrapper);
+    } else {
+        YGConfigSetLogger(config, nullptr);
+    }
 }
 }

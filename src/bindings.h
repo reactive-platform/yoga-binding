@@ -10,5 +10,5 @@
 extern "C" {
 typedef void (* YGBindingsLogger)(char* string, YGLogLevel level);
 
-EXPORT void YGBindingsConfigSetLogger(YGBindingsLogger logger);
+EXPORT void YGBindingsConfigSetLogger(YGConfigRef config, YGBindingsLogger logger);
 }
