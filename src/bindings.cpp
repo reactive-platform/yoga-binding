@@ -23,7 +23,7 @@ int YGLoggerWrapper(
     vsnprintf(buffer, sizeof(buffer), format, args);
 
     // Call the bindings logger
-    logger(buffer, level);
+    logger(level, buffer);
 
     return 0;
 }

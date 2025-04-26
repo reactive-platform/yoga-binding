@@ -8,7 +8,7 @@
 #define EXPORT __attribute__((visibility("default")))
 
 extern "C" {
-typedef void (* YGBindingsLogger)(char* string, YGLogLevel level);
+typedef void (* YGBindingsLogger)(YGLogLevel level, char* string);
 
 EXPORT void YGBindingsConfigSetLogger(YGConfigRef config, YGBindingsLogger logger);
 }
