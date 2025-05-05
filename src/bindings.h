@@ -8,17 +8,7 @@
 #define EXPORT __attribute__((visibility("default")))
 
 extern "C" {
+typedef void (* YGBindingsLogger)(YGLogLevel level, char* string);
 
-typedef void (* YGBindingsLogger)(char* string, YGLogLevel level);
-
-EXPORT void YGBindingsSetLogger(YGBindingsLogger callback);
-
-EXPORT void YGNodeInsertChildSafe(YGNodeRef node, YGNodeRef child, int index);
-
-EXPORT void YGNodeRemoveChildSafe(YGNodeRef node, YGNodeRef child);
-
-EXPORT void YGNodeRemoveAllChildrenSafe(YGNodeRef node);
-
-EXPORT void YGTest() {}
-
+EXPORT void YGBindingsConfigSetLogger(YGConfigRef config, YGBindingsLogger logger);
 }
