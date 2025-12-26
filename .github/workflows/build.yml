@@ -24,4 +24,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: yoga-artifacts
-          path: build/yoga.dll
+          path: build/
