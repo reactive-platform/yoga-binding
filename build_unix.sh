@@ -14,4 +14,6 @@ cmake --build bin
 mkdir -p "$BUILD_DIR"
 cp bin/libyoga_binding.dll build/yoga.dll
 
+bash -e get_version.sh >> build/VERSION
+
 echo "Build finished."

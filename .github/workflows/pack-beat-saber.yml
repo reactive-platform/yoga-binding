@@ -14,16 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
       - name: Download Yoga binary
         uses: actions/download-artifact@v5
         with:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
           name: yoga-${{ github.event.workflow_run.head_sha }}
-          path: './artifacts/'
+          path: './artifacts'
 
       - name: Prepare package folder
         run: |
@@ -34,7 +31,7 @@ jobs:
       - name: Generate BSIPA manifest
         run: |
           GAME_VERSION="1.42.0" \
-          YOGA_VERSION=$(chmod +x ./get_version.sh | ./get_version.sh) \
+          YOGA_VERSION=$(cat artifacts/VERSION) \
           envsubst < manifests/BeatSaber.json.in > package/Plugins/Yoga.manifest
 
       - name: Upload packaged artifact
