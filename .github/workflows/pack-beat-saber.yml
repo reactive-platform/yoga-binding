@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout manifests
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: manifests
+
       - name: Download Yoga binary
         uses: actions/download-artifact@v5
         with:
