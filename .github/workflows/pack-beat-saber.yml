@@ -1,4 +1,7 @@
 name: Pack Yoga for Beat Saber
+permissions:
+  actions: read
+  contents: read
 
 on:
   workflow_run:
