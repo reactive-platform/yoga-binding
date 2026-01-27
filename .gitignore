@@ -5,3 +5,7 @@ bin
 build
 CMakeFiles
 cmake-build-*
+x64
+obj
+runtimes
+

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <RestorePackages>false</RestorePackages>
+    <ResolveNuGetPackages>false</ResolveNuGetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{C5D3F6B0-1B8D-4F8A-9E9F-5C5E7E3F9E1A}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>YogaBinding</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>YogaBinding</ProjectName>
+    <ManagedAssembly>true</ManagedAssembly>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <TargetName>yoga</TargetName>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)lib\yoga;$(ProjectDir)lib\yoga\yoga;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;YOGA_BINDING_EXPORTS;FB_ASSERTIONS_ENABLED=0;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <CompileAsWholeProgramOptimization>false</CompileAsWholeProgramOptimization>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <CompileAsManaged>false</CompileAsManaged>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Managed wrapper files -->
+  <ItemGroup>
+    <ClCompile Include="src\bindings.cpp" />
+  </ItemGroup>
+  <!-- Native implementation files -->
+  <ItemGroup>
+    <ClCompile Include="lib\yoga\yoga\event\event.cpp" />
+    <ClCompile Include="lib\yoga\yoga\debug\AssertFatal.cpp" />
+    <ClCompile Include="lib\yoga\yoga\debug\Log.cpp" />
+    <ClCompile Include="lib\yoga\yoga\config\Config.cpp" />
+    <ClCompile Include="lib\yoga\yoga\node\LayoutResults.cpp" />
+    <ClCompile Include="lib\yoga\yoga\node\Node.cpp" />
+    <ClCompile Include="lib\yoga\yoga\algorithm\FlexLine.cpp" />
+    <ClCompile Include="lib\yoga\yoga\algorithm\CalculateLayout.cpp" />
+    <ClCompile Include="lib\yoga\yoga\algorithm\AbsoluteLayout.cpp" />
+    <ClCompile Include="lib\yoga\yoga\algorithm\Baseline.cpp" />
+    <ClCompile Include="lib\yoga\yoga\algorithm\Cache.cpp" />
+    <ClCompile Include="lib\yoga\yoga\algorithm\PixelGrid.cpp" />
+    <ClCompile Include="lib\yoga\yoga\YGConfig.cpp" />
+    <ClCompile Include="lib\yoga\yoga\YGEnums.cpp" />
+    <ClCompile Include="lib\yoga\yoga\YGNode.cpp" />
+    <ClCompile Include="lib\yoga\yoga\YGNodeLayout.cpp" />
+    <ClCompile Include="lib\yoga\yoga\YGNodeStyle.cpp" />
+    <ClCompile Include="lib\yoga\yoga\YGPixelGrid.cpp" />
+    <ClCompile Include="lib\yoga\yoga\YGValue.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bindings.h" />
+    <ClInclude Include="lib\yoga\yoga\Yoga.h" />
+    <ClInclude Include="lib\yoga\yoga\YGEnums.h" />
+    <ClInclude Include="lib\yoga\yoga\YGMacros.h" />
+    <ClInclude Include="lib\yoga\yoga\YGValue.h" />
+    <ClInclude Include="lib\yoga\yoga\YGConfig.h" />
+    <ClInclude Include="lib\yoga\yoga\YGNode.h" />
+    <ClInclude Include="lib\yoga\yoga\YGNodeLayout.h" />
+    <ClInclude Include="lib\yoga\yoga\YGNodeStyle.h" />
+    <ClInclude Include="lib\yoga\yoga\YGPixelGrid.h" />
+    <ClInclude Include="lib\yoga\yoga\debug\AssertFatal.h" />
+    <ClInclude Include="lib\yoga\yoga\debug\Log.h" />
+    <ClInclude Include="lib\yoga\yoga\config\Config.h" />
+    <ClInclude Include="lib\yoga\yoga\node\CachedMeasurement.h" />
+    <ClInclude Include="lib\yoga\yoga\node\LayoutResults.h" />
+    <ClInclude Include="lib\yoga\yoga\node\Node.h" />
+    <ClInclude Include="lib\yoga\yoga\algorithm\FlexLine.h" />
+    <ClInclude Include="lib\yoga\yoga\algorithm\CalculateLayout.h" />
+    <ClInclude Include="lib\yoga\yoga\algorithm\AbsoluteLayout.h" />
+    <ClInclude Include="lib\yoga\yoga\algorithm\Baseline.h" />
+    <ClInclude Include="lib\yoga\yoga\algorithm\Cache.h" />
+    <ClInclude Include="lib\yoga\yoga\algorithm\PixelGrid.h" />
+    <ClInclude Include="lib\yoga\yoga\numeric\Comparison.h" />
+    <ClInclude Include="lib\yoga\yoga\numeric\FloatOptional.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <PropertyGroup>
+    <NuGetTargets>NO_NUGET_TARGETS</NuGetTargets>
+  </PropertyGroup>
+</Project>
