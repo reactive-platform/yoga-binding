@@ -21,10 +21,11 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           run-id: ${{ github.event.workflow_run.id }}
-          name: yoga-${{ github.event.workflow_run.head_sha }}.dll
+
 
       - name: Prepare package folder
         run: |
+          ls
           mkdir -p package/Libs/Native
           mkdir -p package/Plugins
           cp yoga-${{ github.event.workflow_run.head_sha }}.dll package/Libs/Native/yoga.dll
