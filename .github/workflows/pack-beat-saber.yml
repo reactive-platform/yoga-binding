@@ -25,13 +25,14 @@ jobs:
         with:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
+          name: yoga-${{ github.event.workflow_run.head_sha }}
+          path: './artifacts/'
 
       - name: Prepare package folder
         run: |
-          ls
           mkdir -p package/Libs/Native
           mkdir -p package/Plugins
-          cp yoga-${{ github.event.workflow_run.head_sha }}.dll package/Libs/Native/yoga.dll
+          cp artifacts/yoga.dll package/Libs/Native/yoga.dll
 
       - name: Generate BSIPA manifest
         run: |
@@ -40,12 +41,10 @@ jobs:
           envsubst < manifests/BeatSaber.json.in > package/Plugins/Yoga.manifest
 
       - name: Pack archive
-        run: |
-          cd package
-          zip -r ../yoga-bs-${{ github.event.workflow_run.head_sha }}.zip *
+        run: zip -r ./yoga-bs-${{ github.event.workflow_run.head_sha }}.zip package/*
 
       - name: Upload packaged artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: yoga-bs-${{ github.event.workflow_run.head_sha }}
-          path: yoga-bs-${{ github.event.workflow_run.head_sha }}.zip
+          path: '.'

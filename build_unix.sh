@@ -12,8 +12,6 @@ cmake "$PROJECT_ROOT" --toolchain="$TOOLCHAIN_FILE" -B bin
 cmake --build bin
 
 mkdir -p "$BUILD_DIR"
-for f in bin/lib*.dll; do
-    [ -f "$f" ] && cp "$f" "$BUILD_DIR"
-done
+cp bin/libyoga_binding.dll build/yoga.dll
 
 echo "Build finished."
