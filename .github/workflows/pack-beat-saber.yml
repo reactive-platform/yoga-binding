@@ -2,7 +2,9 @@ name: Pack Yoga for Beat Saber
 
 on:
   workflow_run:
-    workflows: ["build.yml"]
+    workflows: [Build Yoga]
+    branches:
+      - '*'
     types:
       - completed
 
