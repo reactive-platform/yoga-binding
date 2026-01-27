@@ -1,0 +1,44 @@
+name: Pack Yoga for Beat Saber
+
+on:
+  workflow_run:
+    workflows: ["Build Yoga"]
+    types:
+      - completed
+
+jobs:
+  pack:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download Yoga binary
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          name: yoga-${{ github.event.workflow_run.head_sha }}.dll
+
+      - name: Prepare package folder
+        run: |
+          mkdir -p package/Libs/Native
+          cp yoga-*.dll package/Libs/Native/yoga.dll
+
+      - name: Generate BSIPA manifest
+        run: |
+          GAME_VERSION="1.42.0"
+          YOGA_VERSION=$(chmod +x ./get_version.sh | ./get_version.sh)
+          envsubst < manifests/BeatSaber.json.in > package/manifest.json
+
+      - name: Pack archive
+        run: |
+          cd package
+          zip -r ../yoga-bs-${{ github.event.workflow_run.head_sha }}.zip *
+
+      - name: Upload packaged artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yoga-bs-${{ github.event.workflow_run.head_sha }}
+          path: yoga-bs-${{ github.event.workflow_run.head_sha }}.zip

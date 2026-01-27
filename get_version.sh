@@ -1,0 +1,1 @@
+cat ./lib/yoga/gradle.properties | grep VERSION_NAME | cut -d '=' -f 2

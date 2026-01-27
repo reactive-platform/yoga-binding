@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+  "id": "Yoga",
+  "name": "Yoga",
+  "author": "Hermanest",
+  "description": "A portable layout engine targeting web standards.",
+  "version": "${YOGA_VERSION}",
+  "gameVersion": "${GAME_VERSION}",
+  "files": [
+    "Libs/Native/yoga.dll"
+  ]
+}
