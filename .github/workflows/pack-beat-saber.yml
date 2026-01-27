@@ -1,7 +1,4 @@
 name: Pack Yoga for Beat Saber
-permissions:
-  actions: read
-  contents: read
 
 on:
   workflow_run:
@@ -40,11 +37,9 @@ jobs:
           YOGA_VERSION=$(chmod +x ./get_version.sh | ./get_version.sh)
           envsubst < manifests/BeatSaber.json.in > package/Plugins/Yoga.manifest
 
-      - name: Pack archive
-        run: zip -r ./yoga-bs-${{ github.event.workflow_run.head_sha }}.zip package/*
-
       - name: Upload packaged artifact
         uses: actions/upload-artifact@v5
         with:
           name: yoga-bs-${{ github.event.workflow_run.head_sha }}
-          path: '.'
+          path: './package'
+          if-no-files-found: 'error'
