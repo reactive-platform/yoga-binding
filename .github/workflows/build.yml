@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -25,3 +25,4 @@ jobs:
         with:
           name: yoga-${{ github.sha }}.dll
           path: 'build/'
+          if-no-files-found: 'error'
