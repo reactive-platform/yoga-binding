@@ -24,7 +24,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           run-id: ${{ github.event.workflow_run.id }}
-
+          github-token: ${{ github.token }}
 
       - name: Prepare package folder
         run: |
