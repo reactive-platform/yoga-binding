@@ -1,0 +1,27 @@
+#include <windows.h>
+
+VS_VERSION_INFO VERSIONINFO
+PRODUCTVERSION @YOGA_PRODUCT_VERSION@
+FILEVERSION @YOGA_PRODUCT_VERSION@
+FILEFLAGSMASK 0x3fL
+FILEFLAGS 0x0L
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_DLL
+FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0" // US English
+        BEGIN
+            VALUE "CompanyName", "Meta"
+            VALUE "FileDescription", "Yoga is an embeddable layout engine targeting web standards."
+            VALUE "LegalCopyright", "Copyright Meta \251 2026"
+            VALUE "ProductName", "Yoga"
+            VALUE "ProductVersion", "@YOGA_VERSION@"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
