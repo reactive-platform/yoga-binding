@@ -8,6 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      LLVM_MINGW_VERSION: "20260922"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -17,8 +20,19 @@ jobs:
       - name: Install MinGW
         run: sudo apt-get update && sudo apt-get install -y mingw-w64
 
-      - name: Build
-        run: bash -e build_unix.sh
+      # GNU mingw-w64 has no ARM64 target. Not added to GITHUB_PATH: llvm-mingw also ships
+      # x86_64-w64-mingw32-gcc wrappers, which would take over the x64 build.
+      - name: Install llvm-mingw
+        run: |
+          NAME="llvm-mingw-${LLVM_MINGW_VERSION}-ucrt-ubuntu-22.04-x86_64"
+          curl -fsSL "https://github.com/mstorsjo/llvm-mingw/releases/download/${LLVM_MINGW_VERSION}/${NAME}.tar.xz" | tar xJ -C "$RUNNER_TEMP"
+          echo "LLVM_MINGW_BIN=$RUNNER_TEMP/$NAME/bin" >> "$GITHUB_ENV"
+
+      - name: Build x64
+        run: bash -e build_unix.sh x64
+
+      - name: Build ARM64
+        run: PATH="$LLVM_MINGW_BIN:$PATH" bash -e build_unix.sh arm64
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v5

@@ -29,9 +29,10 @@ jobs:
 
       - name: Prepare package folder
         run: |
-          mkdir -p package/Libs/Native
+          mkdir -p package/Libs/Native/arm64
           mkdir -p package/Plugins
           cp artifacts/yoga.dll package/Libs/Native/yoga.dll
+          cp artifacts/arm64/yoga.dll package/Libs/Native/arm64/yoga.dll
 
       - name: Generate BSIPA manifest
         run: |
