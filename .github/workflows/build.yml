@@ -8,35 +8,66 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      LLVM_MINGW_VERSION: "20260922"
-
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
           submodules: recursive
 
-      - name: Install MinGW
-        run: sudo apt-get update && sudo apt-get install -y mingw-w64
-
-      # GNU mingw-w64 has no ARM64 target. Not added to GITHUB_PATH: llvm-mingw also ships
-      # x86_64-w64-mingw32-gcc wrappers, which would take over the x64 build.
       - name: Install llvm-mingw
+        env:
+          LLVM_MINGW_VERSION: "20260922"
         run: |
-          NAME="llvm-mingw-${LLVM_MINGW_VERSION}-ucrt-ubuntu-22.04-x86_64"
-          curl -fsSL "https://github.com/mstorsjo/llvm-mingw/releases/download/${LLVM_MINGW_VERSION}/${NAME}.tar.xz" | tar xJ -C "$RUNNER_TEMP"
-          echo "LLVM_MINGW_BIN=$RUNNER_TEMP/$NAME/bin" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/llvm-mingw"
+          curl -fsSL "https://github.com/mstorsjo/llvm-mingw/releases/download/$LLVM_MINGW_VERSION/llvm-mingw-$LLVM_MINGW_VERSION-ucrt-ubuntu-22.04-x86_64.tar.xz" \
+            | tar xJ -C "$RUNNER_TEMP/llvm-mingw" --strip-components=1
+          echo "$RUNNER_TEMP/llvm-mingw/bin" >> "$GITHUB_PATH"
 
       - name: Build x64
         run: bash -e build_unix.sh x64
 
       - name: Build ARM64
-        run: PATH="$LLVM_MINGW_BIN:$PATH" bash -e build_unix.sh arm64
+        run: bash -e build_unix.sh arm64
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v5
         with:
           name: yoga-${{ github.sha }}
           path: 'build/'
+          if-no-files-found: 'error'
+
+  pack:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout manifests
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: manifests
+
+      - name: Download Yoga binary
+        uses: actions/download-artifact@v5
+        with:
+          name: yoga-${{ github.sha }}
+          path: './artifacts'
+
+      - name: Prepare package folder
+        run: |
+          mkdir -p package/Libs/Native/arm64
+          mkdir -p package/Plugins
+          cp artifacts/yoga.dll package/Libs/Native/yoga.dll
+          cp artifacts/arm64/yoga.dll package/Libs/Native/arm64/yoga.dll
+
+      - name: Generate BSIPA manifest
+        run: |
+          GAME_VERSION="1.42.0" \
+          YOGA_VERSION=$(cat artifacts/VERSION) \
+          envsubst < manifests/BeatSaber.json.in > package/Plugins/Yoga.manifest
+
+      - name: Upload packaged artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: yoga-bs-${{ github.sha }}
+          path: './package'
           if-no-files-found: 'error'
