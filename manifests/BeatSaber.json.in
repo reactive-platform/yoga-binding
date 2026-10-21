@@ -7,6 +7,7 @@
   "version": "${YOGA_VERSION}",
   "gameVersion": "${GAME_VERSION}",
   "files": [
-    "Libs/Native/yoga.dll"
+    "Libs/Native/yoga.dll",
+    "Libs/Native/arm64/yoga.dll"
   ]
 }
